@@ -30,17 +30,17 @@ class CrimeDetailFragment : Fragment(){
     ): View? {
         //return super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
-        return binding!!.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding!!.crimeTitile.doOnTextChanged { text, _, _, _ -> crime= crime.copy(title =text.toString()) }
-        binding!!.crimeDate.apply {
+        binding?.crimeTitile?.doOnTextChanged { text, _, _, _ -> crime= crime.copy(title =text.toString()) }
+        binding?.crimeDate?.apply {
             text=crime.date.toString();
             isEnabled = false
         }
-        binding!!.crimeSolved.setOnCheckedChangeListener { _, isChecked -> crime = crime.copy(isSolved = isChecked) }
+        binding?.crimeSolved?.setOnCheckedChangeListener { _, isChecked -> crime = crime.copy(isSolved = isChecked) }
 
     }
 

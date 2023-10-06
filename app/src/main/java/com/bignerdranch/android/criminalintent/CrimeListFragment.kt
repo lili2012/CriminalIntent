@@ -27,12 +27,12 @@ class CrimeListFragment : Fragment(){
         binding = FragmentCrimeListBinding.inflate(inflater, container, false)
         val crimes= crimeListViewModel.crimes
         val adapter = CrimeListAdapter(crimes)
-        binding!!.crimeRecyclerView.apply {
+        binding?.crimeRecyclerView?.apply {
             this.adapter = adapter;
             layoutManager = LinearLayoutManager(context)
         }
 
-        return binding!!.root
+        return binding?.root
     }
 
     override fun onDestroyView() {
