@@ -7,8 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bignerdranch.android.criminalintent.databinding.FragmentCrimeListBinding
+import kotlinx.coroutines.launch
 
 private const val TAG = "CrimeListFragment"
 class CrimeListFragment : Fragment(){
@@ -25,19 +29,24 @@ class CrimeListFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCrimeListBinding.inflate(inflater, container, false)
-        val crimes= crimeListViewModel.crimes
-        val adapter = CrimeListAdapter(crimes)
-        binding?.crimeRecyclerView?.apply {
-            this.adapter = adapter;
-            layoutManager = LinearLayoutManager(context)
-        }
-
+        binding?.crimeRecyclerView?.layoutManager = LinearLayoutManager(context)
         return binding?.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+        super.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                val crimes= crimeListViewModel.crimes
+                val adapter = CrimeListAdapter(crimes)
+                binding?.crimeRecyclerView?.adapter = adapter;
+            }
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
+
 
 }
